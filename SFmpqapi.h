@@ -425,7 +425,7 @@ BOOL      SFMPQAPI WINAPI SFileGetFileName(MPQHANDLE hFile, LPSTR lpBuffer, DWOR
 DWORD     SFMPQAPI WINAPI SFileSetFilePointer(MPQHANDLE hFile, LONG lDistanceToMove, PLONG lplDistanceToMoveHigh, DWORD dwMoveMethod);
 BOOL      SFMPQAPI WINAPI SFileReadFile(MPQHANDLE hFile, LPVOID lpBuffer, DWORD nNumberOfBytesToRead, LPDWORD lpNumberOfBytesRead, LPOVERLAPPED lpOverlapped);
 LCID      SFMPQAPI WINAPI SFileSetLocale(LCID nNewLocale);
-BOOL      SFMPQAPI WINAPI SFileGetBasePath(LPCSTR lpBuffer, DWORD dwBufferLength);
+BOOL      SFMPQAPI WINAPI SFileGetBasePath(LPSTR lpBuffer, DWORD dwBufferLength);
 BOOL      SFMPQAPI WINAPI SFileSetBasePath(LPCSTR lpNewBasePath);
 
 // Extra storm-related functions

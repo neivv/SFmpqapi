@@ -251,7 +251,7 @@ LPCSTR SFMPQAPI WINAPI SFMpqGetVersionString()
 	return SFMpqVersionString;
 }
 
-DWORD  SFMPQAPI WINAPI SFMpqGetVersionString2(LPCSTR lpBuffer, DWORD dwBufferLength)
+DWORD  SFMPQAPI WINAPI SFMpqGetVersionString2(LPSTR lpBuffer, DWORD dwBufferLength)
 {
 	if (!lpBuffer) {
 		SetLastError(ERROR_INVALID_PARAMETER);
@@ -745,7 +745,7 @@ BOOL SFMPQAPI WINAPI SFileCloseArchive(MPQHANDLE hMPQ)
 	return TRUE;
 }
 
-BOOL SFMPQAPI WINAPI SFileGetArchiveName(MPQHANDLE hMPQ, LPCSTR lpBuffer, DWORD dwBufferLength)
+BOOL SFMPQAPI WINAPI SFileGetArchiveName(MPQHANDLE hMPQ, LPSTR lpBuffer, DWORD dwBufferLength)
 {
 	if (hMPQ==0 || lpBuffer==0) {
 		SetLastError(ERROR_INVALID_PARAMETER);
@@ -1024,7 +1024,7 @@ BOOL SFMPQAPI WINAPI SFileGetFileArchive(MPQHANDLE hFile, MPQHANDLE *hMPQ)
 	}
 }
 
-BOOL SFMPQAPI WINAPI SFileGetFileName(MPQHANDLE hFile, LPCSTR lpBuffer, DWORD dwBufferLength)
+BOOL SFMPQAPI WINAPI SFileGetFileName(MPQHANDLE hFile, LPSTR lpBuffer, DWORD dwBufferLength)
 {
 	return SFileGetArchiveName(hFile,lpBuffer,dwBufferLength);
 }
@@ -1400,7 +1400,7 @@ LCID SFMPQAPI WINAPI SFileSetLocale(LCID nNewLocale)
 	return (LocaleID = nNewLocale);
 }
 
-BOOL SFMPQAPI WINAPI SFileGetBasePath(LPCSTR lpBuffer, DWORD dwBufferLength)
+BOOL SFMPQAPI WINAPI SFileGetBasePath(LPSTR lpBuffer, DWORD dwBufferLength)
 {
 	if (lpBuffer==0) {
 		SetLastError(ERROR_INVALID_PARAMETER);
