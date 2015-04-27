@@ -697,17 +697,17 @@ BOOL SFMPQAPI WINAPI SFileCloseArchive(MPQHANDLE hMPQ)
 	//SFFree(mpqOpenArc->lpFileName);
 	SFFree(mpqOpenArc->lpHashTable);
 	if(mpqOpenArc->lpBlockTable) SFFree(mpqOpenArc->lpBlockTable);
-	if ((DWORD)mpqOpenArc->lpNextArc!=(DWORD)FirstLastMpq)
+	if ((uintptr_t)mpqOpenArc->lpNextArc!=(uintptr_t)FirstLastMpq)
 		mpqOpenArc->lpNextArc->lpPrevArc = mpqOpenArc->lpPrevArc;
-	if ((DWORD)mpqOpenArc->lpPrevArc!=0xEAFC5E23)
+	if ((uintptr_t)mpqOpenArc->lpPrevArc!=0xEAFC5E23)
 		mpqOpenArc->lpPrevArc->lpNextArc = mpqOpenArc->lpNextArc;
 	if (mpqOpenArc==FirstLastMpq[0])
 		FirstLastMpq[0] = mpqOpenArc->lpNextArc;
-	if ((DWORD)FirstLastMpq[0]==(DWORD)FirstLastMpq)
+	if ((uintptr_t)FirstLastMpq[0]==(uintptr_t)FirstLastMpq)
 		FirstLastMpq[0] = 0;
 	if (mpqOpenArc==FirstLastMpq[1])
 		FirstLastMpq[1] = mpqOpenArc->lpPrevArc;
-	if ((DWORD)FirstLastMpq[1]==0xEAFC5E23)
+	if ((uintptr_t)FirstLastMpq[1]==0xEAFC5E23)
 		FirstLastMpq[1] = 0;
 	SFFree(mpqOpenArc);
 	if (!lpOpenMpq) return TRUE;
@@ -1062,7 +1062,7 @@ DWORD SFMPQAPI WINAPI SFileGetFileInfo(MPQHANDLE hFile, DWORD dwInfoType)
 			case SFILE_INFO_FLAGS:
 				return mpqOpenFile->lpBlockEntry->dwFlags;
 			case SFILE_INFO_PARENT:
-				return (DWORD)mpqOpenFile->lpParentArc;
+				return (uintptr_t)mpqOpenFile->lpParentArc;
 			case SFILE_INFO_POSITION:
 				return mpqOpenFile->dwFilePointer;
 			case SFILE_INFO_LOCALEID:
@@ -1484,7 +1484,8 @@ BOOL SFMPQAPI WINAPI SFileListFiles(MPQHANDLE hMPQ, LPCSTR lpFileLists, FILELIST
 	}
 
 	MPQARCHIVE *mpqOpenArc = (MPQARCHIVE *)hMPQ;
-	DWORD i,tsz;
+	DWORD tsz;
+	uintptr_t i;
 
 	if (memcmp(&mpqOpenArc->MpqHeader.dwMPQID,ID_BN3,4)==0)
 	{
@@ -1609,7 +1610,7 @@ BOOL SFMPQAPI WINAPI SFileListFiles(MPQHANDLE hMPQ, LPCSTR lpFileLists, FILELIST
 			memset(&thisFile,0,sizeof(MPQFILE));
 			thisFile.lpParentArc = (MPQARCHIVE *)hMPQ;
 			thisFile.hFile = INVALID_HANDLE_VALUE;
-			thisFile.lpHashEntry = &mpqOpenArc->lpHashTable[(DWORD)lpNameBuffers[i]];
+			thisFile.lpHashEntry = &mpqOpenArc->lpHashTable[(uintptr_t)lpNameBuffers[i]];
 			thisFile.lpBlockEntry = &mpqOpenArc->lpBlockTable[thisFile.lpHashEntry->dwBlockTableIndex];
 			thisFile.lpFileName = thisFile.szFileName;
 			strcpy(thisFile.lpFileName,INTERNAL_LISTFILE);
@@ -3532,10 +3533,10 @@ void LoadStorm()
 	}*/
 	if (hStorm==0) return;
 
-	unsigned int wSCCOrdinal=0xAC30;
+	uintptr_t wSCCOrdinal=0xAC30;
 	wSCCOrdinal>>=4;
 	wSCCOrdinal/=5;
-	unsigned int wSCDcOrdinal=0xAC80;
+	uintptr_t wSCDcOrdinal=0xAC80;
 	wSCDcOrdinal>>=4;
 	wSCDcOrdinal/=5;
 
